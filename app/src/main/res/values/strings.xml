@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ritsu AI Assistant</string>
+    
+    <!-- Configuración general -->
+    <string name="settings">Configuración</string>
+    <string name="general">General</string>
+    <string name="privacy">Privacidad</string>
+    <string name="about">Acerca de</string>
+    
+    <!-- Servicios -->
+    <string name="accessibility_service_label">Ritsu AI Assistant</string>
+    <string name="accessibility_service_description">Servicio de accesibilidad para Ritsu AI Assistant que permite controlar el sistema y manejar llamadas automáticamente.</string>
+    <string name="notification_service_label">Ritsu Notifications</string>
+    
+    <!-- Permisos -->
+    <string name="permissions_title">Permisos Requeridos</string>
+    <string name="permissions_description">Ritsu AI Assistant necesita los siguientes permisos para funcionar correctamente:</string>
+    <string name="permission_accessibility">Accesibilidad</string>
+    <string name="permission_accessibility_description">Para controlar el sistema y manejar llamadas</string>
+    <string name="permission_microphone">Micrófono</string>
+    <string name="permission_microphone_description">Para reconocimiento de voz y conversaciones</string>
+    <string name="permission_phone">Teléfono</string>
+    <string name="permission_phone_description">Para manejar llamadas entrantes y salientes</string>
+    <string name="permission_contacts">Contactos</string>
+    <string name="permission_contacts_description">Para identificar llamantes y personalizar respuestas</string>
+    <string name="permission_sms">SMS</string>
+    <string name="permission_sms_description">Para leer y responder mensajes</string>
+    <string name="permission_notifications">Notificaciones</string>
+    <string name="permission_notifications_description">Para leer notificaciones de aplicaciones</string>
+    <string name="permission_storage">Almacenamiento</string>
+    <string name="permission_storage_description">Para guardar conversaciones y modelos de IA</string>
+    <string name="permission_location">Ubicación</string>
+    <string name="permission_location_description">Para información del clima y servicios locales</string>
+    
+    <!-- Configuración de Ritsu -->
+    <string name="ritsu_settings">Configuración de Ritsu</string>
+    <string name="voice_settings">Configuración de Voz</string>
+    <string name="ai_settings">Configuración de IA</string>
+    <string name="call_settings">Configuración de Llamadas</string>
+    <string name="message_settings">Configuración de Mensajes</string>
+    
+    <!-- Personalidad -->
+    <string name="personality">Personalidad</string>
+    <string name="personality_friendly">Amigable</string>
+    <string name="personality_formal">Formal</string>
+    <string name="personality_casual">Casual</string>
+    <string name="personality_professional">Profesional</string>
+    
+    <!-- Voz -->
+    <string name="voice_speed">Velocidad de Voz</string>
+    <string name="voice_pitch">Tono de Voz</string>
+    <string name="voice_language">Idioma de Voz</string>
+    <string name="voice_spanish">Español</string>
+    <string name="voice_english">Inglés</string>
+    <string name="voice_japanese">Japonés</string>
+    
+    <!-- Llamadas -->
+    <string name="auto_answer_calls">Contestar Llamadas Automáticamente</string>
+    <string name="auto_answer_favorites">Solo contactos favoritos</string>
+    <string name="auto_answer_all">Todos los contactos</string>
+    <string name="auto_answer_none">No contestar automáticamente</string>
+    <string name="call_recording">Grabar Llamadas</string>
+    <string name="call_transcription">Transcribir Llamadas</string>
+    <string name="call_summary">Generar Resumen</string>
+    
+    <!-- Mensajes -->
+    <string name="auto_read_messages">Leer Mensajes Automáticamente</string>
+    <string name="auto_reply_messages">Responder Mensajes Automáticamente</string>
+    <string name="message_translation">Traducir Mensajes</string>
+    <string name="message_priority">Prioridad de Mensajes</string>
+    
+    <!-- IA -->
+    <string name="ai_model">Modelo de IA</string>
+    <string name="ai_model_llama">LLaMA 2 (7B)</string>
+    <string name="ai_model_llama3">LLaMA 3 (7B)</string>
+    <string name="ai_model_custom">Personalizado</string>
+    <string name="ai_context_memory">Memoria de Contexto</string>
+    <string name="ai_learning_enabled">Aprendizaje Habilitado</string>
+    <string name="ai_offline_mode">Modo Offline</string>
+    
+    <!-- Interfaz -->
+    <string name="theme">Tema</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_auto">Automático</string>
+    <string name="avatar_size">Tamaño del Avatar</string>
+    <string name="avatar_position">Posición del Avatar</string>
+    <string name="animation_speed">Velocidad de Animación</string>
+    
+    <!-- Notificaciones -->
+    <string name="notification_title">Ritsu AI Assistant</string>
+    <string name="notification_listening">Escuchando comandos de voz...</string>
+    <string name="notification_processing">Procesando con IA...</string>
+    <string name="notification_call">Manejando llamada...</string>
+    <string name="notification_message">Procesando mensaje...</string>
+    
+    <!-- Estados -->
+    <string name="status_ready">Listo</string>
+    <string name="status_listening">Escuchando</string>
+    <string name="status_thinking">Pensando</string>
+    <string name="status_speaking">Hablando</string>
+    <string name="status_processing">Procesando</string>
+    <string name="status_error">Error</string>
+    
+    <!-- Mensajes de error -->
+    <string name="error_initialization">Error al inicializar Ritsu</string>
+    <string name="error_permissions">Permisos insuficientes</string>
+    <string name="error_ai_model">Error al cargar modelo de IA</string>
+    <string name="error_speech_recognition">Error en reconocimiento de voz</string>
+    <string name="error_call_handling">Error al manejar llamada</string>
+    <string name="error_message_processing">Error al procesar mensaje</string>
+    <string name="error_network">Error de conexión</string>
+    <string name="error_storage">Error de almacenamiento</string>
+    
+    <!-- Mensajes de éxito -->
+    <string name="success_initialization">Ritsu inicializado correctamente</string>
+    <string name="success_permissions">Permisos concedidos</string>
+    <string name="success_ai_model">Modelo de IA cargado</string>
+    <string name="success_call_answered">Llamada contestada por Ritsu</string>
+    <string name="success_message_sent">Mensaje enviado</string>
+    <string name="success_settings_saved">Configuración guardada</string>
+    
+    <!-- Comandos de voz -->
+    <string name="wake_word">Hey Ritsu</string>
+    <string name="command_open_app">Abrir aplicación</string>
+    <string name="command_make_call">Hacer llamada</string>
+    <string name="command_send_message">Enviar mensaje</string>
+    <string name="command_set_reminder">Establecer recordatorio</string>
+    <string name="command_weather">Clima</string>
+    <string name="command_news">Noticias</string>
+    <string name="command_music">Música</string>
+    <string name="command_settings">Configuración</string>
+    <string name="command_help">Ayuda</string>
+    
+    <!-- Diálogos -->
+    <string name="dialog_confirm">Confirmar</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string>dialog_ok</string>
+    <string name="dialog_yes">Sí</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_delete">Eliminar</string>
+    <string name="dialog_save">Guardar</string>
+    <string name="dialog_edit">Editar</string>
+    
+    <!-- Tutorial -->
+    <string name="tutorial_welcome">¡Bienvenido a Ritsu AI Assistant!</string>
+    <string name="tutorial_intro">Ritsu es tu asistente personal de IA que vive en tu teléfono. Te ayudará con llamadas, mensajes y mucho más.</string>
+    <string name="tutorial_voice">Di \"Hey Ritsu\" seguido de tu comando para activar la asistente.</string>
+    <string name="tutorial_calls">Ritsu puede contestar llamadas por ti y mantener conversaciones naturales.</string>
+    <string name="tutorial_messages">Ritsu puede leer y responder mensajes automáticamente.</string>
+    <string name="tutorial_avatar">Toca a Ritsu para interactuar directamente con ella.</string>
+    <string name="tutorial_complete">¡Todo listo! Ritsu está lista para ayudarte.</string>
+    
+    <!-- Información -->
+    <string name="about_version">Versión 1.0.0</string>
+    <string name="about_description">Ritsu AI Assistant es un launcher Android revolucionario con asistente de IA avatar 3D que maneja todas tus comunicaciones de manera natural.</string>
+    <string name="about_features">Características principales:</string>
+    <string name="about_feature_launcher">• Launcher personalizado con avatar 3D</string>
+    <string name="about_feature_ai">• IA conversacional 100% gratuita y offline</string>
+    <string name="about_feature_calls">• Manejo inteligente de llamadas telefónicas</string>
+    <string name="about_feature_messages">• Procesamiento automático de mensajes</string>
+    <string name="about_feature_voice">• Reconocimiento de voz avanzado</string>
+    <string name="about_developer">Desarrollado con ❤️ para revolucionar la experiencia móvil</string>
+    
+    <!-- Privacidad -->
+    <string name="privacy_title">Política de Privacidad</string>
+    <string name="privacy_description">Ritsu AI Assistant respeta tu privacidad:</string>
+    <string name="privacy_local">• Todo el procesamiento se realiza localmente en tu dispositivo</string>
+    <string name="privacy_no_cloud">• No se envían datos a servidores externos</string>
+    <string name="privacy_encrypted">• Los datos se almacenan de forma segura y encriptada</string>
+    <string name="privacy_control">• Tienes control total sobre tus datos</string>
+    <string name="privacy_delete">• Puedes eliminar todos los datos en cualquier momento</string>
+    
+    <!-- Licencia -->
+    <string name="license_title">Licencia</string>
+    <string name="license_description">Ritsu AI Assistant es software de código abierto bajo la licencia MIT. Todas las tecnologías utilizadas son gratuitas y de código abierto.</string>
+    
+    <!-- Créditos -->
+    <string name="credits_title">Créditos</string>
+    <string name="credits_ai">Modelos de IA: LLaMA, Vosk, eSpeak-NG</string>
+    <string name="credits_ui">Interfaz: Jetpack Compose, Material Design 3</string>
+    <string name="credits_audio">Audio: Android Audio APIs</string>
+    <string name="credits_database">Base de datos: Room, SQLite</string>
+</resources>
