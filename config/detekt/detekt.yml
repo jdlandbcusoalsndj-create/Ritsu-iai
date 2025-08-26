@@ -1,0 +1,86 @@
+build:
+  maxIssues: 0
+  weights:
+    complexity: 2
+    LongParameterList: 1
+    style: 1
+    comments: 1
+
+config:
+  validation: true
+  warningsAsErrors: false
+  checkExhaustiveness: false
+
+processors:
+  active: true
+
+console-reports:
+  active: true
+  exclude:
+    - 'ProjectStatisticsReport'
+    - 'ComplexityReport'
+    - 'NotificationReport'
+    - 'FileBasedFindingsReport'
+
+output-reports:
+  active: true
+  exclude:
+    - 'HtmlOutputReport'
+    - 'TxtOutputReport'
+    - 'XmlOutputReport'
+
+style:
+  active: true
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+  NewLineAtEndOfFile:
+    active: true
+  TrailingWhitespace:
+    active: true
+
+complexity:
+  active: true
+  LongParameterList:
+    active: true
+    threshold: 6
+  TooManyFunctions:
+    active: true
+    threshold: 11
+  ComplexMethod:
+    active: true
+    threshold: 15
+
+comments:
+  active: true
+  EndOfSentenceFormat:
+    active: true
+  UndocumentedPublicClass:
+    active: false
+  UndocumentedPublicFunction:
+    active: false
+  UndocumentedPublicProperty:
+    active: false
+
+potential-bugs:
+  active: true
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCast:
+    active: true
+  UnsafeImplicitCast:
+    active: true
+
+performance:
+  active: true
+  SpreadOperator:
+    active: true
+  ArrayPrimitive:
+    active: true
+
+formatting:
+  active: true
+  android: true
+  autoCorrect: true
