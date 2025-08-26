@@ -34,23 +34,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    - name: Validate Gradle Wrapper
-      run: ./gradlew wrapper --validate-only
-
-    - name: Run tests
-      run: ./gradlew test
-      continue-on-error: true
-
-    - name: Build with Gradle
-      run: ./gradlew build
-      continue-on-error: true
-
     - name: Build Debug APK
       run: ./gradlew assembleDebug
-
-    - name: Build Release APK
-      run: ./gradlew assembleRelease
-      continue-on-error: true
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v3
@@ -59,13 +44,24 @@ jobs:
         path: app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
 
-    - name: Upload Release APK
-      uses: actions/upload-artifact@v3
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
       with:
-        name: ritsu-ai-assistant-release
-        path: app/build/outputs/apk/release/app-release-unsigned.apk
-        retention-days: 30
-      if: success() || failure()
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Run tests
+      run: ./gradlew test
 
   lint:
     runs-on: ubuntu-latest
@@ -85,83 +81,9 @@ jobs:
 
     - name: Run lint
       run: ./gradlew lint
-      continue-on-error: true
-
-    - name: Upload lint report
-      uses: actions/upload-artifact@v3
-      with:
-        name: lint-report
-        path: app/build/reports/lint-results.xml
-        retention-days: 7
-      if: always()
-
-  security:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Run dependency check
-      run: ./gradlew dependencyCheckAnalyze
-      continue-on-error: true
-
-    - name: Upload security report
-      uses: actions/upload-artifact@v3
-      with:
-        name: security-report
-        path: build/reports/dependency-check-report.html
-        retention-days: 30
-      if: always()
-
-  quality:
-    runs-on: ubuntu-latest
-    needs: [build, lint, security]
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Run ktlint
-      run: ./gradlew ktlintCheck
-      continue-on-error: true
-
-    - name: Run detekt
-      run: ./gradlew detekt
-      continue-on-error: true
-
-    - name: Generate coverage report
-      run: ./gradlew jacocoTestReport
-      continue-on-error: true
-
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: app/build/reports/jacoco/jacocoTestReport/html/
-        retention-days: 30
-      if: always()
 
   release:
-    needs: [build, lint, security, quality]
+    needs: [build, test, lint]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
@@ -181,16 +103,6 @@ jobs:
     - name: Build Release APK
       run: ./gradlew assembleRelease
 
-    - name: Sign APK
-      uses: r0adkll/sign-android-release@v1
-      id: sign_app
-      with:
-        releaseDirectory: app/build/outputs/apk/release
-        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-        alias: ${{ secrets.KEY_ALIAS }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-
     - name: Create Release
       uses: actions/create-release@v1
       env:
@@ -201,7 +113,7 @@ jobs:
         body: |
           ## 🎭🤖 Ritsu AI Assistant v${{ github.run_number }}
           
-          ### ✨ New Features
+          ### ✨ Features
           - **Launcher personalizado** con avatar 3D interactivo
           - **IA conversacional 100% gratuita** con modelos LLaMA locales
           - **Llamadas telefónicas conversacionales** reales
@@ -209,53 +121,33 @@ jobs:
           - **Síntesis de voz** natural con eSpeak-NG
           - **Interfaz anime** moderna con Material Design 3
           
-          ### 🔧 Technical Improvements
+          ### 🔧 Technical
           - Arquitectura MVVM optimizada
           - Base de datos Room completa (8 entidades)
           - Servicios de sistema integrados
           - Gestión de preferencias segura con DataStore
           - Jetpack Compose para UI moderna
           
-          ### 🔒 Security & Privacy
+          ### 🔒 Privacy & Security
           - ✅ **Procesamiento 100% local** - Sin envío de datos
           - ✅ **Modelos offline** - Funcionamiento sin internet
           - ✅ **Encriptación de datos** - Almacenamiento seguro
           - ✅ **Permisos mínimos** - Solo los necesarios
-          - ✅ **Modo privacidad** - Control total del usuario
           
           ### 💰 Completely Free
           - ✅ **Sin APIs de pago** - Todo es código abierto
           - ✅ **Sin límites de uso** - Uso ilimitado
           - ✅ **Sin suscripciones** - Gratis para siempre
-          - ✅ **Sin tracking** - Privacidad total
           
           ### 📱 Installation
-          1. Download the signed APK below
+          1. Download the APK below
           2. Enable "Install from unknown sources"
           3. Install the application
           4. Set as default launcher
           5. Grant necessary permissions
           6. Configure accessibility services
           
-          ### 🎯 System Requirements
-          - **Android 8.0+** (API 26+)
-          - **4GB+ RAM** recommended
-          - **1GB+ storage** for AI models
-          - **Accessibility permissions** for full functionality
-          
-          ### 🚀 What's New
-          - Complete Android launcher replacement
-          - Real conversational AI with local processing
-          - Advanced voice recognition and synthesis
-          - Intelligent call handling and messaging
-          - Beautiful anime-themed interface
-          - Comprehensive privacy protection
-          
           **Download the APK and experience the future of mobile AI!** 🎭🤖✨
-          
-          ---
-          
-          *Built with ❤️ using 100% free and open source technologies*
         draft: false
         prerelease: false
 
@@ -265,55 +157,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./app/build/outputs/apk/release/app-release-signed.apk
+        asset_path: ./app/build/outputs/apk/release/app-release-unsigned.apk
         asset_name: RitsuAIAssistant-v${{ github.run_number }}.apk
         asset_content_type: application/vnd.android.package-archive
-
-  deploy-preview:
-    needs: [build]
-    runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/main' && github.event_name == 'push'
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Download Debug APK
-      uses: actions/download-artifact@v3
-      with:
-        name: ritsu-ai-assistant-debug
-        path: ./apks
-
-    - name: Create Preview Comment
-      uses: actions/github-script@v6
-      with:
-        script: |
-          const fs = require('fs');
-          const path = './apks/app-debug.apk';
-          
-          if (fs.existsSync(path)) {
-            const stats = fs.statSync(path);
-            const sizeInMB = (stats.size / (1024 * 1024)).toFixed(2);
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## 🎭 Ritsu AI Assistant - Preview Build
-              
-              ### 📱 Debug APK Available
-              - **Size**: ${sizeInMB} MB
-              - **Branch**: \`${context.ref}\`
-              - **Commit**: \`${context.sha.substring(0, 7)}\`
-              
-              ### 🚀 Ready for Testing
-              The debug APK has been built successfully and is ready for testing.
-              
-              ### 📋 Next Steps
-              1. Download the APK from the artifacts
-              2. Install on a test device
-              3. Test all functionality
-              4. Report any issues
-              
-              **Build Status**: ✅ Success`
-            });
-          }
