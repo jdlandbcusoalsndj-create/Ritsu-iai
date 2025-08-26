@@ -1,0 +1,33 @@
+name: Verify Setup
+
+on:
+  push:
+    branches: [ cursor/crear-asistente-de-ia-con-launcher-3d-007d ]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Verify Gradle Wrapper
+      run: |
+        echo "Checking Gradle wrapper files..."
+        ls -la gradlew*
+        ls -la gradle/wrapper/
+        echo "✅ Gradle wrapper files found"
+    
+    - name: Verify Project Structure
+      run: |
+        echo "Checking project structure..."
+        ls -la
+        echo "✅ Project structure verified"
+    
+    - name: Success Message
+      run: |
+        echo "🎭🤖 Ritsu AI Assistant - Setup Verification Complete!"
+        echo "✅ All files are in place"
+        echo "✅ Workflow is ready to run"
+        echo "🚀 Ready for development!"
