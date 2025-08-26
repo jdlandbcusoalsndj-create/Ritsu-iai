@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Incluir preferencias del usuario -->
+    <include domain="sharedpref" path="." />
+    
+    <!-- Incluir base de datos -->
+    <include domain="database" path="." />
+    
+    <!-- Incluir archivos de configuración -->
+    <include domain="file" path="config/" />
+    
+    <!-- Incluir modelos de IA descargados -->
+    <include domain="file" path="ai_models/" />
+    
+    <!-- Incluir datos de voz -->
+    <include domain="file" path="speech_data/" />
+    
+    <!-- Excluir grabaciones de llamadas por privacidad -->
+    <exclude domain="file" path="call_recordings/" />
+    
+    <!-- Excluir archivos temporales -->
+    <exclude domain="file" path="temp/" />
+    <exclude domain="file" path="cache/" />
+    
+    <!-- Excluir logs -->
+    <exclude domain="file" path="logs/" />
+</full-backup-content>
