@@ -1,0 +1,189 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Run tests
+      run: ./gradlew test
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Build APK
+      run: ./gradlew assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Run lint
+      run: ./gradlew lint
+
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Run security scan
+      run: ./gradlew dependencyCheckAnalyze
+
+    - name: Upload security report
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-report
+        path: build/reports/dependency-check-report.html
+
+  release:
+    needs: [build, lint, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build Release APK
+      run: ./gradlew assembleRelease
+
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      id: sign_app
+      with:
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.KEY_ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        body: |
+          ## What's Changed
+          
+          ### 🎭 Ritsu AI Assistant v${{ github.run_number }}
+          
+          **New Features:**
+          - Launcher personalizado con avatar 3D
+          - IA conversacional 100% gratuita y offline
+          - Llamadas telefónicas conversacionales
+          - Reconocimiento de voz avanzado
+          - Interfaz anime moderna
+          
+          **Technical Improvements:**
+          - Arquitectura MVVM optimizada
+          - Base de datos Room completa
+          - Servicios de sistema integrados
+          - Gestión de preferencias segura
+          
+          **Security & Privacy:**
+          - Procesamiento 100% local
+          - Sin envío de datos externos
+          - Encriptación de datos sensibles
+          - Permisos mínimos necesarios
+          
+          ### 📱 Installation
+          1. Download the signed APK
+          2. Enable "Install from unknown sources"
+          3. Install the application
+          4. Set as default launcher
+          5. Grant necessary permissions
+          6. Configure accessibility services
+          
+          ### 🔒 Privacy First
+          - ✅ No data sent to external servers
+          - ✅ All AI processing is local
+          - ✅ No tracking or analytics
+          - ✅ Complete user control
+          
+          ### 💰 Completely Free
+          - ✅ No paid APIs
+          - ✅ No usage limits
+          - ✅ No subscriptions
+          - ✅ Open source forever
+          
+          **Download the APK and experience the future of mobile AI!** 🎭🤖✨
+        draft: false
+        prerelease: false
+
+    - name: Upload Release APK
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./app/build/outputs/apk/release/app-release-signed.apk
+        asset_name: RitsuAIAssistant-v${{ github.run_number }}.apk
+        asset_content_type: application/vnd.android.package-archive
